@@ -12,12 +12,13 @@ class WhatsappSender():
         url = f'https://web.whatsapp.com/send?phone={number}&text={message}'
         with webdriver.Chrome(chrome_options=self.options) as driver:
             driver.get(url)
-
+            driver.minimize_window()
             while len(driver.find_elements(by='id', value='side')) < 1:
                 sleep(1)
-
+            
+            sleep(5)
             driver.find_element(by='xpath', value='//*[@id="main"]/footer/div[1]/div/div/div[2]/div[1]/div/div[2]').send_keys(Keys.ENTER)
-            sleep(10)
+            sleep(5)
 
     def do_login(self):
         with webdriver.Chrome(chrome_options=self.options) as driver:
