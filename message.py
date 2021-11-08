@@ -15,30 +15,32 @@ class Messager():
         except OSError:
             print('something failure opening your url')
         self.last_timestamp = None
-        self.actual_row = None
+        self.actual_row = 0
         self._update_row()
     
-    def _update_row(self):        
-        try:
-            with open('personal-infos/last_timestamp.txt', 'r') as file:
-                self.last_timestamp = file.read()
-        except FileNotFoundError:
-            print('the timestamp file was not find')
-
-        self.actual_row = 0
-        if self.last_timestamp:
-            for i, timestamp in enumerate(self.form_df['Timestamp ']):
-                if timestamp == self.last_timestamp:
-                    self.actual_row = i + 1
-                    break
-        
-        if self.actual_row < len(self.form_df):
-            last_timestamp = self.form_df['Timestamp '][self.actual_row]
+    def _update_row(self): 
+        if not self.actual_row:
             try:
-                with open('personal-infos/last_timestamp.txt', 'w') as file:
-                    file.write(last_timestamp)
+                with open('personal-infos/last_timestamp.txt', 'r') as file:
+                    self.last_timestamp = file.read()
             except FileNotFoundError:
                 print('the timestamp file was not find')
+
+            if self.last_timestamp :
+                for i, timestamp in enumerate(self.form_df['Timestamp ']):
+                    if timestamp == self.last_timestamp:
+                        self.actual_row = i + 1
+                        break
+        else:
+            self.actual_row += 1
+        
+    def on_exit(self):
+        last_timestamp = self.form_df['Timestamp '][self.actual_row - 1]
+        try:
+            with open('personal-infos/last_timestamp.txt', 'w') as file:
+                file.write(last_timestamp)
+        except FileNotFoundError:
+            print('the timestamp file was not find')
 
     def make_message(self):
 
@@ -74,5 +76,5 @@ class Messager():
             return None
 
     def return_row(self):
-        self._update_row()
-        self.actual_row -= 1
+        if self.actual_row > 0:
+            self.actual_row -= 1
