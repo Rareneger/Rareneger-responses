@@ -47,7 +47,7 @@ class Messager():
             contact_way = self.form_df['Por onde deseja receber as informações de confirmação do atendimento? '][self.actual_row]
             
             if 'Whatsapp' in contact_way:
-                contact_number = '55' + self.form_df['Para receber por Whatsapp informe o número de celular: '][self.actual_row]
+                contact_number = '55' + str(int(self.form_df['Para receber por Whatsapp informe o número de celular: '][self.actual_row]))
             else:
                 contact_number = None
 
