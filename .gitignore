@@ -133,3 +133,4 @@ dmypy.json
 
 # pernsonal infos
 personal-infos/*
+chrome-user-data/*
