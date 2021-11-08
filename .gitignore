@@ -132,4 +132,4 @@ dmypy.json
 .vscode/
 
 # pernsonal infos
-pernsonal-infos/*
+personal-infos/*
