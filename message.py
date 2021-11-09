@@ -1,9 +1,28 @@
-from numpy import empty
+from numpy import isnan
 import pandas as pd
 
 
 class Messager():
     def __init__(self):
+        self.form_df = self.read_df()
+        self.actual_row = self.read_timestamp()
+
+    def read_timestamp(self):
+        try:
+            with open('personal-infos/last_timestamp.txt', 'r') as file:
+                last_timestamp = file.read()
+        except FileNotFoundError:
+            print('the timestamp file was not find')
+            return 0
+
+        if last_timestamp :
+                for i, timestamp in enumerate(self.form_df['Timestamp']):
+                    if timestamp == last_timestamp:
+                        actual_row = i + 1
+                        break
+        return actual_row
+
+    def read_df(self):
         try:
             with open('personal-infos/url_form.txt', 'r') as file:
                 url = file.read()
@@ -11,57 +30,36 @@ class Messager():
             print('the url file was not find')
 
         try:
-            self.form_df = pd.read_csv(url)
+            form_df = pd.read_csv(url)
         except OSError:
             print('something failure opening your url')
-        self.last_timestamp = None
-        self.actual_row = 0
-        self._update_row()
-    
-    def _update_row(self): 
-        if not self.actual_row:
-            try:
-                with open('personal-infos/last_timestamp.txt', 'r') as file:
-                    self.last_timestamp = file.read()
-            except FileNotFoundError:
-                print('the timestamp file was not find')
+            return None
 
-            if self.last_timestamp :
-                for i, timestamp in enumerate(self.form_df['Timestamp ']):
-                    if timestamp == self.last_timestamp:
-                        self.actual_row = i + 1
-                        break
-        else:
-            self.actual_row += 1
-        
-    def on_exit(self):
-        last_timestamp = self.form_df['Timestamp '][self.actual_row - 1]
-        try:
-            with open('personal-infos/last_timestamp.txt', 'w') as file:
-                file.write(last_timestamp)
-        except FileNotFoundError:
-            print('the timestamp file was not find')
+        return form_df
+
+    def _update_row(self): 
+        self.actual_row += 1
 
     def make_message(self):
-
         if self.actual_row < len(self.form_df):
-            name = self.form_df['Nome: '][self.actual_row]
-            contact_way = self.form_df['Por onde deseja receber as informações de confirmação do atendimento? '][self.actual_row]
+            name = self.form_df['Nome:'][self.actual_row]
+            contact_way = self.form_df['Por onde deseja receber as informações de confirmação do atendimento?'][self.actual_row]
+            contact_number = None
             
             if 'Whatsapp' in contact_way:
-                contact_number = '55' + str(int(self.form_df['Para receber por Whatsapp informe o número de celular: '][self.actual_row]))
-            else:
-                contact_number = None
-
+                num = self.form_df['Para receber por Whatsapp informe o número de celular:'][self.actual_row]
+                if not isnan(num):
+                    contact_number = '55' + str(int(num))
+            
             if 'Email' in contact_way:
-                contact_email = self.form_df['Para receber por Email informe o Email: '][self.actual_row]
+                contact_email = self.form_df['Para receber por Email informe o Email:'][self.actual_row]
             else:
                 contact_email = None
 
-            attendance_kind = self.form_df['Atendimento '][self.actual_row].split('-')[0].strip()
-            schedule_possibilities = f'{self.form_df["Início "][self.actual_row]} e {self.form_df["Fim "][self.actual_row]}'
+            attendance_kind = self.form_df['Atendimento'][self.actual_row].split('-')[0].strip()
+            schedule_possibilities = f'{self.form_df["Início"][self.actual_row]} e {self.form_df["Fim"][self.actual_row]}'
 
-            print(f'Marque uma {attendance_kind}, a pessoa está disponível entre {schedule_possibilities} nos dias {self.form_df["Disponibilidade de dias da semana "][self.actual_row]}')
+            print(f'Marque uma {attendance_kind}, a pessoa está disponível entre {schedule_possibilities} nos dias {self.form_df["Disponibilidade de dias da semana"][self.actual_row]}')
 
             mark_date = input('digite a data: ')
 
@@ -75,6 +73,14 @@ class Messager():
         else:
             return None
 
-    def return_row(self):
+    def on_exit(self):
+        last_timestamp = self.form_df['Timestamp'][self.actual_row - 1]
+        try:
+            with open('personal-infos/last_timestamp.txt', 'w') as file:
+                file.write(last_timestamp)
+        except FileNotFoundError:
+            print('the timestamp file was not find')
+
+    def back_row(self):
         if self.actual_row > 0:
             self.actual_row -= 1
