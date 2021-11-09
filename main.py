@@ -20,9 +20,9 @@ if __name__ == '__main__':
     messages = []
     while msg:
         messages.append(msg)
-        text, email, number = msg
+        text_message, contact_email, contact_number = msg
         
-        if not number and not email:
+        if not contact_number and not contact_email:
             print('* A pessoa não disponibilizou meios de contato')
         
         if not confirm():
@@ -34,19 +34,23 @@ if __name__ == '__main__':
     messager.on_exit()
 
     if messages:
-        whatsapp =WhatsappSender()
-        whatsapp.do_login()
+        whatsapp_sender =WhatsappSender()
+        whatsapp_sender.do_login()
+        email_sender = EmailSender()
 
         with tqdm(total=len(messages) * 10) as progress:
             for msg in messages:
-                text, email, number = msg
+                text_message, contact_email, contact_number = msg
                 
-                if not number and not email:
+                if not contact_number and not contact_email:
                     progress.update(10)
                 rate = 2
-                if not number or not email:
+                if not contact_number or not contact_email:
                     rate = 1
 
-                if number:
-                    whatsapp.send_message(text, number, progress, rate)
+                if contact_number:
+                    whatsapp_sender.send_message(text_message, contact_number, progress, rate)
                 
+                if contact_email:
+                    email_sender.send_email(text_message, contact_email)
+                    progress.update(10 / rate)
