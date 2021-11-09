@@ -1,5 +1,6 @@
 from send import *
 from message import *
+from tqdm import tqdm
 
 def confirm():
     answer = input('Confirma? [S/N]: ')
@@ -36,7 +37,16 @@ if __name__ == '__main__':
         whatsapp =WhatsappSender()
         whatsapp.do_login()
 
-        for msg in messages:
-            text, email, number = msg
-            if number:
-                whatsapp.send_message(text, number)
+        with tqdm(total=len(messages) * 10) as progress:
+            for msg in messages:
+                text, email, number = msg
+                
+                if not number and not email:
+                    progress.update(10)
+                rate = 2
+                if not number or not email:
+                    rate = 1
+
+                if number:
+                    whatsapp.send_message(text, number, progress, rate)
+                

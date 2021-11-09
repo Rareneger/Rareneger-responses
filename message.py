@@ -8,13 +8,14 @@ class Messager():
         self.actual_row = self.read_timestamp()
 
     def read_timestamp(self):
+        actual_row = 0
         try:
             with open('personal-infos/last_timestamp.txt', 'r') as file:
                 last_timestamp = file.read()
         except FileNotFoundError:
             print('the timestamp file was not find')
-            return 0
-
+            return actual_row
+        
         if last_timestamp :
                 for i, timestamp in enumerate(self.form_df['Timestamp']):
                     if timestamp == last_timestamp:
