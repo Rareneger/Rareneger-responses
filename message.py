@@ -1,11 +1,13 @@
 from numpy import isnan
 import pandas as pd
+import json
 
 
 class Messager():
     def __init__(self):
         self.form_df = self.read_df()
         self.actual_row = self.read_timestamp()
+        self.pay_codes = self.read_pay_codes()
 
     def read_timestamp(self):
         actual_row = 0
@@ -31,12 +33,18 @@ class Messager():
             print('the url file was not find')
 
         try:
-            form_df = pd.read_csv(url)
+            return pd.read_csv(url)
         except OSError:
             print('something failure opening your url')
             return None
 
-        return form_df
+    def read_pay_codes(self):
+        try:
+            with open('personal-infos/pay-codes.json', 'r', encoding='utf8') as file:
+                return json.load(file)
+        except FileNotFoundError:
+            print('the pay-codes file was not find')
+            return None
 
     def _update_row(self): 
         self.actual_row += 1
@@ -66,8 +74,9 @@ class Messager():
 
             mark_schedule = input('digite o hórario: ')
 
+            print('')
             print('A menssagem a ser enviada será: ')
-            messagem = f'Olá {name}, tudo bem? aqui é o Rareneger \nA sua {attendance_kind} está marcada para {mark_date} as {mark_schedule}.' 
+            messagem = f'Olá {name}, tudo bem? aqui é o Rareneger\n \nA sua {attendance_kind} está marcada para {mark_date} as {mark_schedule}.\nVocê pode realizar o pagamento pelo pix copia e cola: \n \n{self.pay_codes[attendance_kind]}\n \nGratidão por se permitir\n \nEsta é uma menssagem automática de confirmação.' 
             print(messagem)
             self._update_row()
             return messagem, contact_email, contact_number
