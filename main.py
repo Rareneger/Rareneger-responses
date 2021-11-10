@@ -3,6 +3,7 @@ from message import *
 from tqdm import tqdm
 
 def confirm():
+    print('')
     answer = input('Confirma? [S/N]: ')
     answer = answer.upper()
     if answer == 'S':
@@ -11,7 +12,6 @@ def confirm():
         return False
     else:
         print('responda com S para sim ou N para não')
-        print('')
         return confirm()
 
 if __name__ == '__main__':
@@ -20,10 +20,6 @@ if __name__ == '__main__':
     messages = []
     while msg:
         messages.append(msg)
-        text_message, contact_email, contact_number = msg
-        
-        if not contact_number and not contact_email:
-            print('* A pessoa não disponibilizou meios de contato')
         
         if not confirm():
             messager.back_row()
@@ -40,8 +36,9 @@ if __name__ == '__main__':
 
         with tqdm(total=len(messages) * 10) as progress:
             for msg in messages:
-                text_message, contact_email, contact_number = msg
-                
+                full_message, contact_email, contact_number = msg
+                text_message, pay_message = full_message
+
                 if not contact_number and not contact_email:
                     progress.update(10)
                 rate = 2
@@ -49,8 +46,9 @@ if __name__ == '__main__':
                     rate = 1
 
                 if contact_number:
-                    whatsapp_sender.send_message(text_message, contact_number, progress, rate)
+                    whatsapp_sender.send_message(text_message, contact_number, progress, rate * 2)
+                    whatsapp_sender.send_message(pay_message, contact_number, progress, rate * 2)
                 
                 if contact_email:
-                    email_sender.send_email(text_message, contact_email)
+                    email_sender.send_email(text_message + pay_message, contact_email)
                     progress.update(10 / rate)
