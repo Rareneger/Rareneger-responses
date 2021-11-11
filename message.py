@@ -80,14 +80,14 @@ class Messager():
 
             mark_schedule = input('digite o hórario: ')
 
-            text_message = f'Olá {name}, tudo bem? aqui é o Rareneger\n \nA sua {attendance_kind} está marcada para {mark_date} as {mark_schedule}.\nGratidão por se permitir\n \nVocê pode realizar o pagamento pelo pix {alternative_payment}\n \nEsta é uma menssagem automática de confirmação, segue o código para o pix copia e cola.\n \n'
+            text_message = f'Olá {name}, tudo bem? aqui é o Rareneger\n \nA sua {attendance_kind} está marcada para {mark_date} as {mark_schedule}.\nGratidão por se permitir\n \nVocê pode realizar o pagamento pelo pix {alternative_payment}\n \nEsta é uma mensagem automática de confirmação, segue o código para o pix copia e cola.\n \n'
 
             pay_message = self.pay_codes[attendance_kind]
 
             message = (text_message, pay_message)
             
             print('')
-            print('A menssagem a ser enviada será: ')
+            print('A mensagem a ser enviada será: ')
             print('\033[33m-=-\033[m' * 15)
             print(text_message)
             print(pay_message)
