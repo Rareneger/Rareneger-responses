@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from send import *
 from message import *
 from tqdm import tqdm
