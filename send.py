@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from selenium import webdriver
+from selenium.common import exceptions
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from time import sleep
@@ -16,17 +17,23 @@ class WhatsappSender():
     def send_message(self, message, number, progress, rate=1):
         url_message = parse.quote(message)
         url = f'https://web.whatsapp.com/send?phone={number}&text={url_message}'
-        with webdriver.Chrome(chrome_options=self.options) as driver:
-            driver.get(url)
-            driver.minimize_window()
-            while len(driver.find_elements(by='id', value='side')) < 1:
-                sleep(1)
-            progress.update(2 / rate)
-            sleep(5)
-            progress.update(4 / rate)
-            driver.find_element(by='xpath', value='/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]').send_keys(Keys.ENTER)
-            sleep(5)
-            progress.update(4 / rate)
+        try:
+            with webdriver.Chrome(chrome_options=self.options) as driver:
+                driver.get(url)
+                driver.minimize_window()
+                while len(driver.find_elements(by='id', value='side')) < 1:
+                    sleep(1)
+                progress.update(2 / rate)
+                sleep(5)
+                progress.update(4 / rate)
+                driver.find_element(by='xpath', value='/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]').send_keys(Keys.ENTER)
+                sleep(5)
+                progress.update(4 / rate)
+        except exceptions.WebDriverException:
+            print(f'algo deu errado enviando a mensagem para {number}')
+            print('')
+            print(message)
+            input('Precione Enter para continuar')
 
     def do_login(self):
         with webdriver.Chrome(chrome_options=self.options) as driver:

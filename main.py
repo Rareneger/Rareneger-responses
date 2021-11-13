@@ -29,8 +29,6 @@ if __name__ == '__main__':
         print('')
         msg = messager.make_message()
 
-    messager.on_exit()
-
     if messages:
         whatsapp_sender =WhatsappSender()
         whatsapp_sender.do_login()
@@ -54,3 +52,6 @@ if __name__ == '__main__':
                 if contact_email:
                     email_sender.send_email(text_message + pay_message, contact_email)
                     progress.update(10 / rate)
+
+    messager.on_exit()
+    
