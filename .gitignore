@@ -132,5 +132,5 @@ dmypy.json
 .vscode/
 
 # pernsonal infos
-personal-infos/*
-chrome-user-data/*
+personal-infos/
+chrome-user-data/
