@@ -3,23 +3,19 @@
 from numpy import isnan
 import pandas as pd
 import json
+from infos import Info
 
 
 class Messager():
     def __init__(self):
+        self.info = Info()
         self.form_df = self.read_df()
         self.actual_row = self.read_timestamp()
-        self.pay_codes = self.read_pay_codes()
+        self.pay_codes = self.info.get_pay_codes()
 
     def read_timestamp(self):
         actual_row = 0
-        try:
-            with open('personal-infos/last_timestamp.txt', 'r') as file:
-                last_timestamp = file.read()
-        except FileNotFoundError:
-            print('the timestamp file was not find')
-            return actual_row
-        
+        last_timestamp = self.info.get_last_timestamp()
         if last_timestamp :
                 for i, timestamp in enumerate(self.form_df['Timestamp']):
                     if timestamp == last_timestamp:
@@ -29,23 +25,9 @@ class Messager():
 
     def read_df(self):
         try:
-            with open('personal-infos/url_form.txt', 'r') as file:
-                url = file.read()
-        except FileNotFoundError:
-            print('the url file was not find')
-
-        try:
-            return pd.read_csv(url)
+            return pd.read_csv(self.info.get_url_form())
         except OSError:
             print('something failure opening your url')
-            return None
-
-    def read_pay_codes(self):
-        try:
-            with open('personal-infos/pay-codes.json', 'r', encoding='utf8') as file:
-                return json.load(file)
-        except FileNotFoundError:
-            print('the pay-codes file was not find')
             return None
 
     def _update_row(self): 
@@ -104,11 +86,7 @@ class Messager():
 
     def on_exit(self):
         last_timestamp = self.form_df['Timestamp'][self.actual_row - 1]
-        try:
-            with open('personal-infos/last_timestamp.txt', 'w') as file:
-                file.write(last_timestamp)
-        except FileNotFoundError:
-            print('the timestamp file was not find')
+        self.info.set_last_timestamp(last_timestamp)
 
     def back_row(self):
         if self.actual_row > 0:

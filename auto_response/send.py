@@ -8,6 +8,7 @@ from time import sleep
 from urllib import parse
 import smtplib
 import email.message
+from infos import Info
 
 class WhatsappSender():
     def __init__(self):
@@ -47,21 +48,8 @@ class EmailSender():
         self.email, self.password = self.get_email()
 
     def get_email(self):
-        try:
-            with open('personal-infos/email.txt', 'r') as file:
-                email = file.read()
-        except FileNotFoundError:
-            email = None
-            print('o arquivo de email não foi encontrado')
-
-        try:
-            with open('personal-infos/email-password.txt', 'r') as file:
-                password = file.read()
-        except FileNotFoundError:
-            password = None
-            print('o arquivo de email não foi encontrado')
-
-        return email, password
+        info = Info()
+        return info.get_email(), info.get_email_password()
 
     def send_email(self, text, email_to):
         msg = email.message.Message()
