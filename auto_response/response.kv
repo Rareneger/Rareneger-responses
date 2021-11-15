@@ -1,4 +1,38 @@
-BoxLayout:
-    Label:
-        text: 'teste!'
-        
+ScreenManager:
+    Screen:
+        name: 'menu'
+        BoxLayout:
+            padding: [self.width * 0.1, 0, self.width * 0.1, 20]
+            spacing: 50
+            orientation: 'vertical'
+            Label:
+                text: 'Respostas Rareneger'
+                font_size: (16 + (8/1920) * self.width)
+            Button:
+                text: 'Responder'
+                on_release: app.responder_button()
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'url'
+                    font_size: (12 + (8/1920) * self.width)
+                TextInput:
+                    text: app.url
+            Button:
+                text: 'Sair'
+                on_release:
+    Screen:
+        name: 'respostas'
+        BoxLayout:
+            padding: [self.width * 0.1, 0, self.width * 0.1, 20]
+            spacing: 50
+            orientation: 'vertical'
+            Label:
+                text: ''
+                font_size: (16 + (8/1920) * self.width)
+            Button:
+                text: 'Sair'
+                on_release:
+            Button:
+                text: 'voltar'
+                on_release: app.root.current = 'menu'
