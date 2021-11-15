@@ -1,4 +1,6 @@
 from kivy.app import App
+from kivy.metrics import sp
+from kivy.uix.label import Label
 from message import *
 
 class ResponseApp(App):
@@ -26,6 +28,19 @@ class ResponseApp(App):
 
     def get_message_command(self):
         self.root.get_screen('respostas').children[0].children[2].text = self.messager.make_message()
+
+
+class Message(Label):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.size_hint = (1, None)
+
+    def on_size(self, *args):
+        self.text_size = (self.width - sp(10), None)
+
+    def on_texture_size(self, *args):
+        self.size = self.texture_size
+        self.height += sp(20)
 
 if __name__ == '__main__':
     app = ResponseApp()
