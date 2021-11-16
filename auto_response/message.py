@@ -42,3 +42,16 @@ class Messager():
     def back_row(self):
         if self.actual_row > 0:
             self.actual_row -= 1
+
+class Person():
+    def __init__(self, phone, email, name, attendance_kind):
+        self.phone = phone
+        self.email = email
+        self.name = name
+        self.attendance_kind = attendance_kind
+        self.date
+        self.time
+
+    def set_date_time(self, date, time):
+        self.date = date
+        self.time = time
