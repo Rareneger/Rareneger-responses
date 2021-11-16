@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from numpy import isnan
-import pandas as pd
-import json
 from infos import Info
 
 
 class Messager():
     def __init__(self):
         self.info = Info()
-        self.form_df = self.read_df()
+        self.form_df = self.info.get_form_df()
         self.actual_row = self.read_timestamp()
         self.pay_codes = self.info.get_pay_codes()
 
@@ -22,13 +20,6 @@ class Messager():
                         actual_row = i + 1
                         break
         return actual_row
-
-    def read_df(self):
-        try:
-            return pd.read_csv(self.info.get_url_form())
-        except OSError:
-            print('something failure opening your url')
-            return None
 
     def _update_row(self): 
         self.actual_row += 1
