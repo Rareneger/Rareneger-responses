@@ -8,13 +8,15 @@ class ResponseApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.url = self.get_url_database()
+        self.current_person = None
         self.messager = Messager()
         self.email_sender = EmailSender()
 
     def responder_button(self):
         self.url = self.root.ids.url_input.text
         self.set_url_database()
-        self.get_message_command()
+        self.current_person = self.messager.get_person_infos()
+        self.root.ids.command_message.text = self.messager.get_command_message(self.current_person)
         self.root.current = 'respostas'
 
     def set_url_database(self):
@@ -28,8 +30,11 @@ class ResponseApp(App):
         except FileNotFoundError:
             return ''
 
-    def get_message_command(self):
-        self.root.ids.command_message.text = self.messager.make_message()
+    def send_message(self):
+        date = self.root.ids.date_input.text
+        time = self.root.ids.time_input.text
+
+        self.email_sender.send_email()
 
 
 class Message(Label):
