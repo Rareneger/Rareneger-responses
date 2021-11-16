@@ -2,37 +2,63 @@ ScreenManager:
     Screen:
         name: 'menu'
         BoxLayout:
-            padding: [self.width * 0.1, 0, self.width * 0.1, 20]
-            spacing: 50
             orientation: 'vertical'
-            Message:
-                text: 'Respostas Rareneger'
-                font_size: (16 + (8/1920) * self.width)
-            Button:
-                text: 'Responder'
-                on_release: app.responder_button()
+            ActionBar:
+                ActionView:
+                    ActionPrevious:
+                        title: 'Menu'
+                        on_release: app.stop()
             BoxLayout:
+                padding: (self.width * 0.1, 0, self.width * 0.1, 20)
+                spacing: 50
                 orientation: 'vertical'
-                Label:
-                    text: 'url'
-                    font_size: (12 + (8/1920) * self.width)
-                TextInput:
-                    text: app.url
-            Button:
-                text: 'Sair'
-                on_release:
+                Message:
+                    text: 'Respostas Rareneger'
+                    font_size: (16 + (8/1920) * self.width)
+                Button:
+                    text: 'Responder'
+                    on_release: app.responder_button()
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        text: 'url'
+                        font_size: (12 + (8/1920) * self.width)
+                    TextInput:
+                        id: url_input
+                        text: app.url
     Screen:
         name: 'respostas'
         BoxLayout:
-            padding: [self.width * 0.1, 0, self.width * 0.1, 20]
-            spacing: 50
             orientation: 'vertical'
-            Message:
-                text: ''
-                font_size: (16 + (8/1920) * self.width)
-            Button:
-                text: 'Sair'
-                on_release:
-            Button:
-                text: 'voltar'
-                on_release: app.root.current = 'menu'
+            ActionBar:
+                ActionView:
+                    ActionPrevious:
+                        title: 'Respostas'
+                        on_release: app.root.current = 'menu'
+            BoxLayout:
+                padding: (self.width * 0.1, self.width * 0.05, self.width * 0.1, self.width * 0.1)
+                orientation: 'vertical'
+                Message:
+                    id: command_message
+                    text: ''
+                    font_size: (16 + (8/1920) * self.width)
+                BoxLayout:
+                    padding: (0, self.height * 0.5, 0, 0)
+                    BoxLayout:
+                        orientation: 'vertical'
+                        Label:
+                            id: date_input
+                            text: 'Data'
+                        TextInput:
+                    BoxLayout:
+                        orientation: 'vertical'
+                        Label:
+                            id: time_input
+                            text: 'Hora'
+                        TextInput:
+                BoxLayout:
+                    padding: (self.width * 0.25, 0, self.width * 0.25, 0)
+                    Button:
+                        text: 'Enviar Mensagem'
+                        on_release: app.send_message()
+                        size_hint_y: 0.4
