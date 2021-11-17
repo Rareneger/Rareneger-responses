@@ -40,7 +40,7 @@ class ResponseApp(App):
 
     def update_row(self):
         self.messager.update_timestamp()
-        self.messager._update_row()
+        self.messager.next_row()
 
     def update_screen(self):
         if self.messager.is_position_valid():

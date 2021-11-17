@@ -18,7 +18,7 @@ class Messager():
                         break
         return actual_row
 
-    def _update_row(self): 
+    def next_row(self): 
         self.actual_row += 1
 
     def is_position_valid(self):
@@ -60,7 +60,7 @@ Esta é uma mensagem automática de confirmação, segue o código para o pix co
         last_timestamp = self.form_df['Carimbo de data/hora'][self.actual_row]
         self.info.set_last_timestamp(last_timestamp)
 
-    def back_row(self):
+    def previous_row(self):
         if self.actual_row > 0:
             self.actual_row -= 1
 

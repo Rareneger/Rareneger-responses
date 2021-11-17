@@ -59,11 +59,19 @@ ScreenManager:
                         TextInput:
                             id: time_input
                 BoxLayout:
-                    padding: (self.width * 0.25, 0, self.width * 0.25, 0)
+                    spacing: self.width * 0.05
+                    Button:
+                        text: '<'
+                        on_release: app.messager.previous_row(); app.update_screen()
+                        size_hint: (0.3, 0.4)
                     Button:
                         text: 'Enviar Mensagem'
                         on_release: app.enviar_mensagem_button()
                         size_hint_y: 0.4
+                    Button:
+                        text: '>'
+                        on_release: app.messager.next_row(); app.update_screen()
+                        size_hint: (0.3, 0.4)
     Screen:
         name: 'end'
         BoxLayout:
@@ -75,6 +83,10 @@ ScreenManager:
                         on_release: app.root.current = 'menu'
             Label:
                 text: 'Não há mais atendimentos para marcar'
+            Button:
+                text: '<'
+                on_release: app.messager.previous_row(); app.update_screen()
+                size_hint_: (0.3, 0.4)
     Screen:
         name: 'loading'
         on_enter: app.send_message()
