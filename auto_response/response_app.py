@@ -4,6 +4,7 @@ from kivy.uix.label import Label
 from message import Messager
 from send import EmailSender
 from infos import Info
+from googleapiclient.errors import HttpError
 
 class ResponseApp(App):
     def __init__(self, **kwargs):
@@ -14,11 +15,14 @@ class ResponseApp(App):
         self.email_sender = None
 
     def responder_button(self):
-        if not self.infos:
-            self.infos = Info(self.root.ids.id_input.text)
-            self.messager = Messager(self.infos)
-            self.email_sender = EmailSender(self.infos)
-        self.update_screen()
+        try:
+            if not self.infos:
+                self.infos = Info(self.root.ids.id_input.text)
+                self.messager = Messager(self.infos)
+                self.email_sender = EmailSender(self.infos)
+            self.update_screen()
+        except HttpError:
+            self.root.ids.id_error_message.text = 'O id informado não é válido'
 
     def enviar_mensagem_button(self):
         self.root.current = 'loading'
@@ -29,8 +33,8 @@ class ResponseApp(App):
         message = self.messager.mount_message(self.current_person)
         pay_code = self.infos.get_pay_codes()[self.current_person.attendance_kind]
         
-        # self.email_sender.send_email(f'{message}{pay_code}',
-        # self.current_person.email)
+        self.email_sender.send_email(f'{message}{pay_code}',
+        self.current_person.email)
         self.update_row()
         self.update_screen()
 
