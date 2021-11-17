@@ -8,7 +8,6 @@ from time import sleep
 from urllib import parse
 import smtplib
 import email.message
-from infos import Info
 
 class WhatsappSender():
     def __init__(self):
@@ -44,12 +43,12 @@ class WhatsappSender():
                 sleep(1)
 
 class EmailSender():
-    def __init__(self):
+    def __init__(self, infos):
+        self.infos = infos
         self.email, self.password = self.get_email()
 
     def get_email(self):
-        info = Info()
-        return info.get_email(), info.get_email_password()
+        return self.infos.get_email(), self.infos.get_email_password()
 
     def send_email(self, text, email_to):
         msg = email.message.Message()

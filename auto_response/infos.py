@@ -27,18 +27,19 @@ class Info():
         return self.data_dict['form']['last timestamp']
 
     def set_last_timestamp(self, timestamp):
+        print(timestamp)
         requests = [
         {
             'deleteContentRange': {
                 'range': {
                     'startIndex': 163,
-                    'endIndex': 181,
+                    'endIndex': 182,
                     }
                 }
             },
         ]
         service = build('docs', 'v1', credentials=self.creds)
-        result = service.documents().batchUpdate(
+        service.documents().batchUpdate(
         documentId=self.data_id, body={'requests': requests}).execute()
 
         requests = [{
@@ -49,7 +50,7 @@ class Info():
                 'text': timestamp
             }
         }]
-        result = service.documents().batchUpdate(
+        service.documents().batchUpdate(
         documentId=self.data_id, body={'requests': requests}).execute()
 
     def google_login(self):
@@ -80,7 +81,7 @@ class Info():
 
         # print(values)
         form_df = pd.DataFrame(values[1:], columns=values[0])
-        print(form_df)
+        return form_df
 
     def get_data_json(self):
         service = build('docs', 'v1', credentials=self.creds)

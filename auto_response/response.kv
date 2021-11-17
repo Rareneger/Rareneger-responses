@@ -21,11 +21,11 @@ ScreenManager:
                 BoxLayout:
                     orientation: 'vertical'
                     Label:
-                        text: 'url'
+                        text: 'doc id'
                         font_size: (12 + (8/1920) * self.width)
                     TextInput:
-                        id: url_input
-                        text: app.url
+                        id: id_input
+                        text:
     Screen:
         name: 'respostas'
         BoxLayout:
@@ -47,15 +47,15 @@ ScreenManager:
                     BoxLayout:
                         orientation: 'vertical'
                         Label:
-                            id: date_input
                             text: 'Data'
                         TextInput:
+                            id: date_input
                     BoxLayout:
                         orientation: 'vertical'
                         Label:
-                            id: time_input
                             text: 'Hora'
                         TextInput:
+                            id: time_input
                 BoxLayout:
                     padding: (self.width * 0.25, 0, self.width * 0.25, 0)
                     Button:
