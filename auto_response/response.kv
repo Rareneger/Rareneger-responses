@@ -60,5 +60,21 @@ ScreenManager:
                     padding: (self.width * 0.25, 0, self.width * 0.25, 0)
                     Button:
                         text: 'Enviar Mensagem'
-                        on_release: app.send_message()
+                        on_release: app.enviar_mensagem_button()
                         size_hint_y: 0.4
+    Screen:
+        name: 'end'
+        BoxLayout:
+            orientation: 'vertical'
+            ActionBar:
+                ActionView:
+                    ActionPrevious:
+                        title: 'Fim'
+                        on_release: app.root.current = 'menu'
+            Label:
+                text: 'Não há mais atendimentos para marcar'
+    Screen:
+        name: 'loading'
+        on_enter: app.send_message()
+        Label:
+            text: 'Carregando...'
