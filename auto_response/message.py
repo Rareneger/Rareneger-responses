@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-import re
-
-
 class Messager():
     def __init__(self, infos):
         self.info = infos
@@ -24,13 +21,16 @@ class Messager():
     def _update_row(self): 
         self.actual_row += 1
 
-    def get_command_message(self, person):
+    def is_position_valid(self):
         if self.actual_row < len(self.form_df):
-            command_message = f'Marque uma {person.attendance_kind}, a pessoa está disponível entre {person.schedule_possibilities} nos dias {person.days_possibilities}'
-
-            return command_message
+            return True
         else:
-            return ''
+            return False
+
+    def get_command_message(self, person):
+        command_message = f'Marque uma {person.attendance_kind}, a pessoa está disponível entre {person.schedule_possibilities} nos dias {person.days_possibilities}'
+
+        return command_message
 
     def mount_message(self, person):
         message = f"""Olá {person.name}, tudo bem? aqui é o Rareneger

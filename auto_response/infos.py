@@ -27,7 +27,6 @@ class Info():
         return self.data_dict['form']['last timestamp']
 
     def set_last_timestamp(self, timestamp):
-        print(timestamp)
         requests = [
         {
             'deleteContentRange': {
