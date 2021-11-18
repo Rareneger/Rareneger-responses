@@ -5,6 +5,7 @@ from message import Messager
 from send import EmailSender
 from infos import Info
 from googleapiclient.errors import HttpError
+from httplib2.error import ServerNotFoundError
 
 class ResponseApp(App):
     def __init__(self, **kwargs):
@@ -23,6 +24,8 @@ class ResponseApp(App):
             self.update_screen()
         except HttpError:
             self.root.ids.id_error_message.text = 'O id informado não é válido'
+        except ServerNotFoundError:
+            self.root.ids.id_error_message.text = 'Não foi possível se conectar com a internet'
 
     def enviar_mensagem_button(self):
         self.root.current = 'loading'
