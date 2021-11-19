@@ -81,12 +81,17 @@ ScreenManager:
                     ActionPrevious:
                         title: 'Fim'
                         on_release: app.root.current = 'menu'
-            Label:
-                text: 'Não há mais atendimentos para marcar'
-            Button:
-                text: '<'
-                on_release: app.messager.previous_row(); app.update_screen()
-                size_hint_: (0.3, 0.4)
+            BoxLayout:
+                orientation: 'vertical'
+                padding: (self.width * 0.1, self.width * 0.05, self.width * 0.1, self.width * 0.1)
+                Label:
+                    text: 'Não há mais atendimentos para marcar'
+                BoxLayout:
+                    padding: (self.width * 0.3, 0, self.width * 0.3, 0)
+                    Button:
+                        text: '<'
+                        on_release: app.messager.previous_row(); app.update_screen()
+                        size_hint_y: 0.2
     Screen:
         name: 'loading'
         on_enter: app.send_message()
