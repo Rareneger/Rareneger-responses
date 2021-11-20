@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from time import sleep
-from urllib import parse
 import smtplib
 import email.message
 
@@ -33,4 +31,3 @@ class EmailSender():
         for line in lines:
             html_message = html_message + '<p>' + line + '</p> \n'
         return html_message
-        
