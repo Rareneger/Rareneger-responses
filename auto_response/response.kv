@@ -6,28 +6,28 @@ ScreenManager:
             ActionBar:
                 ActionView:
                     ActionPrevious:
-                        title: 'Menu'
+                        title: 'Respostas Rareneger'
                         on_release: app.stop()
             BoxLayout:
-                padding: (self.width * 0.1, 0, self.width * 0.1, 20)
-                spacing: 50
+                padding: (self.width * 0.1, self.height * 0.3, self.width * 0.1, self.height * 0.1)
                 orientation: 'vertical'
-                Message:
-                    text: 'Respostas Rareneger'
-                    font_size: (16 + (8/1920) * self.width)
-                Button:
-                    text: 'Responder'
-                    on_release: app.responder_button()
+                spacing: self.height * 0.05
                 BoxLayout:
                     orientation: 'vertical'
                     Label:
-                        text: 'doc id'
+                        text: 'id do documento'
                         font_size: (12 + (8/1920) * self.width)
+                        size_hint_y: 0
                     TextInput:
                         id: id_input
-                        text:
+                        size_hint_y: 0.3
                     Label:
                         id: id_error_message
+                        size_hint_y: 0.4
+                Button:
+                    text: 'Responder'
+                    on_release: app.responder_button()
+                    size_hint_y: 0.4
     Screen:
         name: 'respostas'
         BoxLayout:
