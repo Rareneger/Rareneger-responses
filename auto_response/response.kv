@@ -94,6 +94,6 @@ ScreenManager:
                         size_hint_y: 0.2
     Screen:
         name: 'loading'
-        on_enter: app.send_message()
+        on_enter: app.update_func()
         Label:
             text: 'Carregando...'

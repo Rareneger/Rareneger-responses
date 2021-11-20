@@ -14,6 +14,7 @@ class ResponseApp(App):
         self.infos = None
         self.messager = None
         self.email_sender = None
+        self.update_func = None
 
     def responder_button(self):
         try:
@@ -28,6 +29,7 @@ class ResponseApp(App):
             self.root.ids.id_error_message.text = 'Não foi possível se conectar com a internet'
 
     def enviar_mensagem_button(self):
+        self.update_func = self.send_message
         self.root.current = 'loading'
 
     def send_message(self):
