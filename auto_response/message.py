@@ -28,7 +28,7 @@ class Messager():
             return False
 
     def get_command_message(self, person):
-        command_message = f'Marque uma {person.attendance_kind}, a pessoa está disponível entre {person.schedule_possibilities} nos dias {person.days_possibilities}'
+        command_message = f'Marque uma {person.attendance_kind}, a pessoa está disponível {person.schedule_possibilities} nos dias {person.days_possibilities}'
 
         return command_message
 
@@ -50,7 +50,7 @@ Esta é uma mensagem automática de confirmação, segue o código para o pix co
         email = self.form_df['Para receber a confirmação por Email, informe o Email:'][self.actual_row]
         name = self.form_df['Nome:'][self.actual_row]
         attendance_kind = self.form_df['Atendimento'][self.actual_row].split('-')[0].strip()
-        schedule_possibilities = f'{self.form_df["Início"][self.actual_row]} e {self.form_df["Fim"][self.actual_row]}'
+        schedule_possibilities = f'{self.form_df["Disponibilidade de horário:"][self.actual_row]}'
         days_possibilities = self.form_df['Disponibilidade de dias da semana'][self.actual_row]
         modality = self.form_df['Modalidade'][self.actual_row]
         return PersonInfos(email, name, attendance_kind,
